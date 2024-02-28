@@ -1,11 +1,11 @@
 import dotenv from 'dotenv';
 import express from 'express';
-//import allRoutes from './routes/allRoutes.js';
 import cors from 'cors';
 import { products } from './data/Products.js';
-
+import connectDatabase from './config/MongoDb.js';
 
 dotenv.config();
+//connectDatabase()
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -24,7 +24,7 @@ app.get('/api/products', (req, res) => {
 app.get('/api/products/:id', (req, res) => {
     const product = products.find((p) => p._id === req.params.id)
     res.json(product)
-});
+}); 
 
 // Start the server
 app.listen(PORT, () => {
