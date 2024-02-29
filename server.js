@@ -1,15 +1,17 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
-import { products } from './data/Products.js';
+import { products } from './data/products.js';
 import connectDatabase from './config/MongoDb.js';
+import ImportData from './seed.js';
+import productRoute from './Routes/productRoute.js';
+import { errorHandler, notFound } from './Middleware/error.js';
 
 dotenv.config();
-//connectDatabase()
+connectDatabase()
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Database Configuration
 
 // Middleware
 app.use(express.json());
@@ -17,14 +19,12 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.get('/api/products', (req, res) => {
-    res.json(products)
-});
+app.use("/api/import", ImportData)
+app.use("/api/products", productRoute)
 
-app.get('/api/products/:id', (req, res) => {
-    const product = products.find((p) => p._id === req.params.id)
-    res.json(product)
-}); 
+//Error handling
+app.use(notFound)
+app.use(errorHandler)
 
 // Start the server
 app.listen(PORT, () => {

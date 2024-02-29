@@ -1,8 +1,7 @@
 export const products = [
     {
-        _id : "1",
         name : "product 1",
-        image : "",
+        image : "/images/4.png",
         desc : "Lorem Ipsum is dash dash dash and so on",
         price : "89",
         countInStock : "4",
@@ -10,9 +9,8 @@ export const products = [
         numReviews : "12"
     },
     {
-        _id : "4",
         name : "product 4",
-        image : "",
+        image : "/images/4.png",
         desc : "Lorem Ipsum is dash dash dash and so on",
         price : "92",
         countInStock : "14",
@@ -20,9 +18,8 @@ export const products = [
         numReviews : "12"
     },
     {
-        _id : "3",
         name : "product 3",
-        image : "",
+        image : "/images/4.png",
         desc : "Lorem Ipsum is dash dash dash and so on",
         price : "18",
         countInStock : "12",
@@ -30,9 +27,8 @@ export const products = [
         numReviews : "2"
     },
     {
-        _id : "4",
         name : "product 4",
-        image : "",
+        image : "/images/4.png",
         desc : "Lorem Ipsum is dash dash dash and so on",
         price : "16",
         countInStock : "32",
