@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
-import { products } from './data/products.js';
 import connectDatabase from './config/MongoDb.js';
 import ImportData from './seed.js';
 import productRoute from './Routes/productRoute.js';
