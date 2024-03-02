@@ -1,8 +1,8 @@
 import express from 'express';
 import User from './Models/user.js'
-import { users } from './data/users.js';
+import sers  from './data/users.js';
 import Product from './Models/product.js';
-import { products } from './data/products.js';
+import products  from './data/products.js';
 import asyncHandler from "express-async-handler"
 
 
