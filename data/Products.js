@@ -1,4 +1,4 @@
-export const products = [
+const products = [
     {
         name : "product 1",
         image : "/images/4.png",
@@ -36,3 +36,5 @@ export const products = [
         numReviews : "25"
     },
 ]
+
+export default products
