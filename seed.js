@@ -1,4 +1,4 @@
-import express from 'express';
+/* import express from 'express';
 import User from './Models/user.js'
 import users  from './data/users.js';
 import Product from './Models/product.js';
@@ -25,4 +25,4 @@ ImportData.post("/products", asyncHandler(
     }
 ))
 
-export default ImportData
+export default ImportData */
