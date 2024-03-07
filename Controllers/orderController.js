@@ -48,3 +48,7 @@ export const get_order_by_id = asyncHandler(async (req, res) => {
     }
 })
 
+export const get_user_orders = asyncHandler(async (req, res) => {
+    const order = await Order.find({user : req.user._id}).sort({_id : -1})
+    res.json(order)
+})
