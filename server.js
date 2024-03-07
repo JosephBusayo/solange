@@ -20,7 +20,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use("/api/import", ImportData)
+//app.use("/api/import", ImportData)
 app.use("/api/products", productRoute)
 app.use("/api/users", userRoute)
 app.use("/api/orders", orderRoute)
