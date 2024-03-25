@@ -1,10 +1,37 @@
 import asyncHandler from "express-async-handler";
 import Order from './../Models/order.js';
+import Cart from './../Models/cart.js'; // Import Cart model
+
+
+export const add_to_cart = asyncHandler(async (req, res) => {
+    const { productId, quantity } = req.body;
+
+    let cart = await Cart.findOne({ user: req.user._id });
+
+    if (!cart) {
+        cart = new Cart({
+            user: req.user._id,
+            items: []
+        });
+    }
+
+    // Check if the product is already in the cart
+    const existingItem = cart.items.find(item => item.product.toString() === productId);
+    
+    if (existingItem) {
+        existingItem.quantity += quantity; 
+    } else {
+        cart.items.push({ product: productId, quantity }); 
+    }
+
+    await cart.save();
+
+    res.status(201).json(cart);
+});
 
 
 export const make_order = asyncHandler(async (req, res) => {
     const {
-        orderItems,
         shippingAddress,
         paymentMethod,
         itemsPrice,
@@ -13,42 +40,32 @@ export const make_order = asyncHandler(async (req, res) => {
         totalPrice,
     } = req.body;
 
-    if (orderItems && orderItems.length === 0) {
-        res.status(400)
-        throw new Error("No order items found")
-        return
-    } else {
-        const order = new Order({
-            orderItems,
-            user: req.user._id,
-            shippingAddress,
-            paymentMethod,
-            itemsPrice,
-            taxPrice,
-            shippingPrice,
-            totalPrice,
-        })
-        const createOrder = await order.save()
-        res.status(201).json(createOrder)
+    const cart = await Cart.findOne({ user: req.user._id });
+
+    if (!cart || cart.items.length === 0) {
+        res.status(400);
+        throw new Error("No items found in the cart");
     }
-})
 
+    const order = new Order({
+        orderItems: cart.items,
+        user: req.user._id,
+        shippingAddress,
+        paymentMethod,
+        itemsPrice,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
+    });
 
-export const get_order_by_id = asyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id).populate(
-        "user",
-        "name email"
-    )
+    cart.items = [];
+    await cart.save();
 
-    if (order) {
-        res.json(order)
-    } else {
-        res.status(404)
-        throw new Error("Order Not Found")
-    }
-})
+    const createOrder = await order.save();
+    res.status(201).json(createOrder);
+});
 
 export const get_user_orders = asyncHandler(async (req, res) => {
-    const order = await Order.find({user : req.user._id}).sort({_id : -1})
-    res.json(order)
-})
+    const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
+    res.json(orders);
+});

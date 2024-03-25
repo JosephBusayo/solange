@@ -8,6 +8,8 @@ import { errorHandler, notFound } from './Middleware/error.js';
 import orderRoute from './Routes/orderRoute.js';
 import { upload, handleUpload } from './config/cloudinaryConfig.js';
 import Product from './Models/product.js';
+import cartRoute from './Routes/cartRoutes.js';
+
 
 dotenv.config();
 connectDatabase()
@@ -49,6 +51,7 @@ app.post("/api/products", upload.single("img"), async (req, res) => {
 
 // Routes
 app.use("/api/products", productRoute)
+app.use('/api/cart', cartRoute);
 app.use("/api/users", userRoute)
 app.use("/api/orders", orderRoute)
 app.get("/api/confiq/paypal", (req, res) => {
